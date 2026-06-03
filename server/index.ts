@@ -2,17 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import authRoutes from './routes/auth.js';
-import applicationRoutes from './routes/applications.js';
-import adminRoutes from './routes/admin.js';
-import registrationRoutes from './routes/registrations.js';
+
+import authRoutes from './routes/auth';
+import applicationRoutes from './routes/applications';
+import adminRoutes from './routes/admin';
+import registrationRoutes from './routes/registrations';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 
 app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000', credentials: true }));
 app.use(express.json({ limit: '10mb' }));
