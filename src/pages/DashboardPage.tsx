@@ -113,13 +113,13 @@ export default function DashboardPage() {
             <table>
               <thead><tr><th>Application No.</th><th>Applicant</th><th>Scheme</th><th>Status</th><th>Date</th></tr></thead>
               <tbody>
-                {stats.recent.map((app: Record<string,string>) => (
+                {stats.recent.map((app: Application) => (
                   <tr key={app.id} style={{cursor:'pointer'}} onClick={() => navigate(`/applications/${app.id}`)}>
                     <td style={{fontFamily:'monospace',fontSize:12.5,color:'var(--navy-mid)'}}>{app.application_number}</td>
-                    <td>{app.full_name||'—'}</td>
+                    <td>{app.applicant_name||'—'}</td>
                     <td>{SCHEME_ICONS[app.scheme_type]} {SCHEME_LABELS[app.scheme_type as SchemeType]}</td>
                     <td><span className={`badge ${STATUS_BADGE[app.status]||'badge-draft'}`}>{app.status?.replace(/_/g,' ')}</span></td>
-                    <td style={{fontSize:12,color:'var(--text-muted)'}}>{app.submission_date?new Date(app.submission_date).toLocaleDateString('en-IN'):'—'}</td>
+                    <td style={{fontSize:12,color:'var(--text-muted)'}}>{app.created_at?new Date(app.created_at).toLocaleDateString('en-IN'):'—'}</td>
                   </tr>
                 ))}
                 {!stats.recent.length && <tr><td colSpan={5} style={{textAlign:'center',padding:32,color:'var(--text-muted)'}}>No applications yet</td></tr>}
@@ -193,7 +193,7 @@ export default function DashboardPage() {
                     <td style={{fontFamily:'monospace',fontSize:12.5,color:'var(--navy-mid)'}}>{app.application_number}</td>
                     <td>{SCHEME_ICONS[app.scheme_type]} {SCHEME_LABELS[app.scheme_type as SchemeType]}</td>
                     <td><span className={`badge ${STATUS_BADGE[app.status]||'badge-draft'}`}>{app.status?.replace(/_/g,' ')}</span></td>
-                    <td style={{fontSize:12,color:'var(--text-muted)'}}>{app.submission_date?new Date(app.submission_date).toLocaleDateString('en-IN'):'—'}</td>
+                    <td style={{fontSize:12,color:'var(--text-muted)'}}>{app.created_at?new Date(app.created_at).toLocaleDateString('en-IN'):'—'}</td>
                     <td><ArrowRight size={14} color="var(--text-muted)"/></td>
                   </tr>
                 ))}
