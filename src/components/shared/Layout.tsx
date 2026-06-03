@@ -19,6 +19,7 @@ const NAV_ITEMS: NavItemDef[] = [
   { label: 'My Applications', path: '/applications', icon: <FileText size={16} />, section: 'main' },
   { label: 'Apply for Incentive', path: '/applications/new/choose', icon: <PlusCircle size={16} />, section: 'main', roles: ['YOGA_CENTRE', 'YOGA_PROFESSIONAL', 'APPLICANT'] },
   { label: 'My Registration', path: '/registration', icon: <Building2 size={16} />, section: 'main', roles: ['YOGA_CENTRE', 'YOGA_PROFESSIONAL'] },
+  { label: 'Yoga Centre Directory', path: '/yoga-centres', icon: <Building2 size={16} />, section: 'main' },
   { label: 'All Applications', path: '/applications', icon: <FileText size={16} />, section: 'admin', roles: ['STATE_ADMIN', 'DISTRICT_ADMIN'] },
   { label: 'Registrations', path: '/admin/registrations', icon: <CheckSquare size={16} />, section: 'admin', roles: ['STATE_ADMIN', 'DISTRICT_ADMIN'] },
   { label: 'Budget Tracker', path: '/admin/budget', icon: <Wallet size={16} />, section: 'admin', roles: ['STATE_ADMIN', 'DISTRICT_ADMIN'] },

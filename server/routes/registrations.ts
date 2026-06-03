@@ -3,6 +3,24 @@ import { query } from '../db/pool.js';
 import { authenticateToken, AuthRequest } from '../middleware/auth.js';
 
 const router = Router();
+
+// PUBLIC — Yoga Centre Directory (no auth required)
+router.get('/yoga-centre/public', async (_req, res: Response) => {
+  try {
+    const result = await query(
+      `SELECT id, centre_name, district, centre_type, address, pincode,
+              contact_person, contact_mobile, capacity_per_session,
+              is_verified, created_at
+       FROM yoga_centres
+       WHERE is_verified = true
+       ORDER BY district, centre_name`
+    );
+    return res.json(result.rows);
+  } catch (e) {
+    return res.status(500).json({ error: 'Failed to fetch centres' });
+  }
+});
+
 router.use(authenticateToken);
 
 // ── POST /api/registrations/yoga-centre ───────────────────────────────────
