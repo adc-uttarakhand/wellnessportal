@@ -4,7 +4,8 @@
   "description": "Uttarakhand Yoga Policy 2025 - Registration & Incentive Portal",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc -p tsconfig.server.json && vite build",
+    "start": "node dist/server/index.js",
     "preview": "vite preview",
     "server": "tsx server/index.ts",
     "db:migrate": "tsx server/db/migrate.ts"
