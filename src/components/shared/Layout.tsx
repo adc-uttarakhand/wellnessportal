@@ -115,6 +115,7 @@ export default function Layout() {
               <div className="user-role">{ROLE_LABELS[user?.role || ''] || user?.role}</div>
             </div>
           </div>
+          <button className="logout-btn" style={{marginBottom:"6px", background:"transparent", border:"1px solid rgba(255,255,255,0.2)", color:"rgba(255,255,255,0.8)"}} onClick={() => navigate("/change-password")}>🔐 Change Password</button>
           <button className="logout-btn" onClick={logout}>
             <LogOut size={13} /> Sign Out
           </button>
