@@ -11,6 +11,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import AdminBudgetPage from './pages/AdminBudgetPage';
 import AdminRegistrationsPage from './pages/AdminRegistrationsPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import Layout from './components/shared/Layout';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -45,6 +46,7 @@ function AppRoutes() {
         <Route path="admin/users" element={<AdminRoute><AdminUsersPage /></AdminRoute>} />
         <Route path="admin/budget" element={<AdminRoute><AdminBudgetPage /></AdminRoute>} />
         <Route path="admin/registrations" element={<AdminRoute><AdminRegistrationsPage /></AdminRoute>} />
+        <Route path="change-password" element={<ChangePasswordPage />} />
       </Route>
     </Routes>
   );
