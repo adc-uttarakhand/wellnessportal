@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { DashboardStats, SCHEME_LABELS, SchemeType, STATUS_COLORS, ApplicationStatus } from '../types';
+import { Application, DashboardStats, SCHEME_LABELS, SchemeType, STATUS_COLORS, ApplicationStatus } from '../types';
 import { adminApi, appApi } from '../utils/api';
 import { FileText, ArrowRight, Clock, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
 
@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [myApps, setMyApps] = useState<Record<string,string>[]>([]);
+  const [myApps, setMyApps] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const isAdmin = user?.role === 'STATE_ADMIN' || user?.role === 'DISTRICT_ADMIN';
 

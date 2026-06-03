@@ -12,43 +12,30 @@ export default function AdminRegistrationsPage() {
   const [search, setSearch] = useState('');
   const [districtFilter, setDistrictFilter] = useState('');
   const [actionLoading, setActionLoading] = useState<number | null>(null);
-  const [expandedId, setExpandedId] = useState<number | null>(null);
 
   useEffect(() => { fetchData(); }, [tab]);
 
   async function fetchData() {
-    setLoading(true);
-    setError('');
+    setLoading(true); setError('');
     try {
       const res = await adminApi.registrations();
-      // Filter by tab on client side based on what backend returns
       const all = Array.isArray(res.data) ? res.data : (res.data[tab] || []);
       setData(all);
-    } catch {
-      setError('Failed to load registrations.');
-    } finally {
-      setLoading(false);
-    }
+    } catch { setError('Failed to load registrations.'); }
+    finally { setLoading(false); }
   }
 
   async function toggleVerify(id: number, type: 'centre' | 'professional') {
     setActionLoading(id);
-    try {
-      await adminApi.verify(type, id);
-      fetchData();
-    } catch {
-      setError('Failed to update verification status.');
-    } finally {
-      setActionLoading(null);
-    }
+    try { await adminApi.verify(type, id); fetchData(); }
+    catch { setError('Failed to update.'); }
+    finally { setActionLoading(null); }
   }
 
-  const filtered = data.filter((item) => {
+  const filtered = data.filter(item => {
     const name = String(item.centre_name || item.full_name || '').toLowerCase();
     const district = String(item.district || '');
-    const matchSearch = !search || name.includes(search.toLowerCase());
-    const matchDist = !districtFilter || district === districtFilter;
-    return matchSearch && matchDist;
+    return (!search || name.includes(search.toLowerCase())) && (!districtFilter || district === districtFilter);
   });
 
   return (
@@ -83,18 +70,20 @@ export default function AdminRegistrationsPage() {
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>Loading...</div>
+      ) : filtered.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>No registrations found</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {filtered.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>No registrations found</div>
-          ) : filtered.map((item) => {
+          {filtered.map((item) => {
             const id = Number(item.id);
             const name = String(item.centre_name || item.full_name || '');
             const district = String(item.district || '');
             const isVerified = Boolean(item.is_verified);
-            const description = String(item.description || item.bio || '');
             const phone = String(item.contact_mobile || item.mobile || '');
-            const type = tab === 'centres' ? 'centre' : 'professional';
+            const centreType = item.centre_type ? String(item.centre_type) : null;
+            const ycbLevel = item.ycb_level ? String(item.ycb_level).replace('_', ' ') : null;
+            const experience = item.years_experience !== undefined ? String(item.years_experience) : null;
+            const type: 'centre' | 'professional' = tab === 'centres' ? 'centre' : 'professional';
 
             return (
               <div key={id} className="card" style={{ border: isVerified ? '1px solid #86EFAC' : '1px solid var(--border)' }}>
@@ -109,30 +98,16 @@ export default function AdminRegistrationsPage() {
                     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '0.4rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                       <span>📍 {district}</span>
                       {phone && <span>📱 {phone}</span>}
-                      {item.centre_type && <span>🏷️ {String(item.centre_type).replace(/_/g, ' ')}</span>}
-                      {item.ycb_level && <span>🏅 YCB {String(item.ycb_level).replace('_', ' ')}</span>}
-                      {item.years_experience !== undefined && <span>⏱️ {String(item.years_experience)} yrs</span>}
+                      {centreType && <span>🏷️ {centreType}</span>}
+                      {ycbLevel && <span>🏅 YCB {ycbLevel}</span>}
+                      {experience && <span>⏱️ {experience} yrs exp.</span>}
                     </div>
-                    {description && expandedId === id && (
-                      <p style={{ margin: '0.5rem 0 0', fontSize: '0.85rem', color: 'var(--text)', background: 'var(--bg)', padding: '0.6rem 0.75rem', borderRadius: '6px', borderLeft: '3px solid var(--primary)' }}>
-                        {description}
-                      </p>
-                    )}
                   </div>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    {description && (
-                      <button className="btn btn-ghost" style={{ fontSize: '0.75rem', padding: '0.25rem 0.6rem' }}
-                        onClick={() => setExpandedId(expandedId === id ? null : id)}>
-                        {expandedId === id ? 'Less ▲' : 'More ▼'}
-                      </button>
-                    )}
-                    <button className="btn"
-                      style={{ fontSize: '0.8rem', padding: '0.35rem 0.85rem', background: isVerified ? '#FEE2E2' : '#DCFCE7', color: isVerified ? '#DC2626' : '#15803D', border: `1px solid ${isVerified ? '#FCA5A5' : '#86EFAC'}` }}
-                      onClick={() => toggleVerify(id, type)}
-                      disabled={actionLoading === id}>
-                      {actionLoading === id ? '...' : isVerified ? 'Revoke' : 'Verify ✓'}
-                    </button>
-                  </div>
+                  <button className="btn"
+                    style={{ fontSize: '0.8rem', padding: '0.35rem 0.85rem', background: isVerified ? '#FEE2E2' : '#DCFCE7', color: isVerified ? '#DC2626' : '#15803D', border: `1px solid ${isVerified ? '#FCA5A5' : '#86EFAC'}` }}
+                    onClick={() => toggleVerify(id, type)} disabled={actionLoading === id}>
+                    {actionLoading === id ? '...' : isVerified ? 'Revoke' : 'Verify ✓'}
+                  </button>
                 </div>
               </div>
             );
