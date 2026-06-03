@@ -17,7 +17,9 @@ interface NavItemDef {
 const NAV_ITEMS: NavItemDef[] = [
   { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={16} />, section: 'main' },
   { label: 'My Applications', path: '/applications', icon: <FileText size={16} />, section: 'main' },
-  { label: 'Apply for Incentive', path: '/applications/new/choose', icon: <PlusCircle size={16} />, section: 'main', roles: ['YOGA_CENTRE', 'YOGA_PROFESSIONAL', 'APPLICANT'] },
+  { label: 'Capital Subsidy', path: '/applications/apply/capital-subsidy', icon: <PlusCircle size={16} />, section: 'main', roles: ['YOGA_CENTRE', 'APPLICANT'] },
+  { label: 'Research Grant', path: '/applications/apply/research-grant', icon: <PlusCircle size={16} />, section: 'main', roles: ['APPLICANT'] },
+  { label: 'Other Schemes', path: '/applications/new/choose', icon: <PlusCircle size={16} />, section: 'main', roles: ['YOGA_CENTRE', 'YOGA_PROFESSIONAL', 'APPLICANT'] },
   { label: 'My Registration', path: '/registration', icon: <Building2 size={16} />, section: 'main', roles: ['YOGA_CENTRE', 'YOGA_PROFESSIONAL'] },
   { label: 'Yoga Centre Directory', path: '/yoga-centres', icon: <Building2 size={16} />, section: 'main' },
   { label: 'All Applications', path: '/applications', icon: <FileText size={16} />, section: 'admin', roles: ['STATE_ADMIN', 'DISTRICT_ADMIN'] },
